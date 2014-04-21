@@ -3,6 +3,7 @@
 from hqlh import codedef as DEFINE
 import hqlh.uservice
 from hqlh.wrapper import BaseHandler
+from hqlh.wrapper import token_decode
 
 def url_spec(*args, **kwargs):
     return [
@@ -10,6 +11,10 @@ def url_spec(*args, **kwargs):
     ]
         
 class LoginHandler(BaseHandler):
+
+    def get(self, *args, **kwargs):
+        self.get_cookie("fifter")
+
     def post(self):
         user = {}
         user = self.check_params('mobile','password')
@@ -21,7 +26,7 @@ class LoginHandler(BaseHandler):
         _mobile = user['mobile']
         _password = user['password']
 
-        userInfo = self.is_valid(_mobile,_password);
+        userInfo = self.is_valid(_mobile,_password)
         if userInfo:
             self.send_user_info(userInfo)
         else :
@@ -37,6 +42,12 @@ class LoginHandler(BaseHandler):
 
     #返回用户信息
     def send_user_info(self, userInfo):
+        id = userInfo['id']
+        mobile = userInfo['mobile']
+        token = self.create_token(id, mobile)
+        userInfo['token'] = token
+        # self.set_cookie("token", token, expires_days=30)
+        self.set_token_cookie(token)
         print(userInfo)
         self.write_back(code=1,**userInfo)
 

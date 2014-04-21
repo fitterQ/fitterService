@@ -30,6 +30,7 @@ class LoginHandlerTestCase(AsyncHTTPTestCase):
     def get_app(self):
         return Application(
             handler.auth.url_spec(),
+
         )
 
     def testLogin(self):

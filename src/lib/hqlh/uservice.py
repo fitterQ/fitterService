@@ -30,3 +30,7 @@ def exist_user(**user):
 
 def get_id_user(uid):
     return model.user.id_user(uid)
+
+
+def update_user(**user):
+    model.user.update_user(user)
