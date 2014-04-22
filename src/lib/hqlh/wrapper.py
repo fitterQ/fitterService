@@ -35,9 +35,8 @@ class BaseHandler(tornado.web.RequestHandler):
         # user_info = json_encode(info)
         if code:
             info['code'] = code
-        user_info = json_encode(info)
 
-        self.write(user_info)
+        self.write(info)
         self.set_status(status)
 
     #获取token

@@ -12,7 +12,7 @@ from hqlh.wrapper import BaseHandler
 from hqlh.uservice import register_user, get_id_user, update_user
 def url_spec(*args, **kwargs):
     return [
-        (r'/user', UserHandler, kwargs),
+        (r'/user/?', UserHandler, kwargs),
     ]
 
 
@@ -106,6 +106,8 @@ class UserHandler(BaseHandler):
         if not exist_user(**user):
             userId = register_user(**user)
             userInfo = get_id_user(userId)
+            token = self.create_token(userId, userInfo['mobile'])
+            userInfo['token'] = token
             self.write_back(status=200, code=1, **userInfo)
             return
         else:

@@ -7,13 +7,10 @@ from hqlh.wrapper import token_decode
 
 def url_spec(*args, **kwargs):
     return [
-        (r'/user/login', LoginHandler, kwargs),
+        (r'/user/login/?', LoginHandler, kwargs),
     ]
         
 class LoginHandler(BaseHandler):
-
-    def get(self, *args, **kwargs):
-        self.get_cookie("fifter")
 
     def post(self):
         user = {}
